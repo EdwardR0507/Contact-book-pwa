@@ -1,25 +1,16 @@
 import React from "react";
-import { ACTIONS } from "../utils/actions";
 import useField from "../hooks/useField";
-import { v4 as uuidv4 } from "uuid";
-const ContactForm = ({ dispatch, setOpen }) => {
+const ContactEdit = ({ rowId, setRowId, handleEdit, setOpenEdit }) => {
   const name = useField("text");
   const phone = useField("text");
 
   const handleAdd = () => {
-    dispatch({
-      type: ACTIONS.ADD_CONTACT,
-      payload: {
-        id: uuidv4(),
-        name: name.value,
-        phone: phone.value,
-      },
-    });
+    handleEdit({ id: rowId, name: name.value, phone: phone.value });
+    setRowId("");
     setTimeout(() => {
-      setOpen(false);
+      setOpenEdit(false);
     }, 500);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -27,7 +18,7 @@ const ContactForm = ({ dispatch, setOpen }) => {
   return (
     <div className="bg-white p-16 rounded shadow-2xl w-11/12 md:w-2/3">
       <form className="space-y-5" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold">Add Contact</h2>
+        <h2 className="text-2xl font-bold">Edit Contact</h2>
         <div>
           <label name="name" className="block mb-2 font-bold text-gray-700">
             Name:{" "}
@@ -55,7 +46,6 @@ const ContactForm = ({ dispatch, setOpen }) => {
         <div className="flex justify-evenly">
           <button
             type="button"
-            onClick={() => setOpen(false)}
             className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           >
             Cancel
@@ -73,4 +63,4 @@ const ContactForm = ({ dispatch, setOpen }) => {
   );
 };
 
-export default ContactForm;
+export default ContactEdit;

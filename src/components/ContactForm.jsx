@@ -1,6 +1,7 @@
 import React from "react";
 import { ACTIONS } from "../utils/actions";
 import useField from "../hooks/useField";
+import { v4 as uuidv4 } from "uuid";
 const ContactForm = ({ dispatch }) => {
   const name = useField("text");
   const phone = useField("text");
@@ -9,7 +10,7 @@ const ContactForm = ({ dispatch }) => {
     dispatch({
       type: ACTIONS.ADD_CONTACT,
       payload: {
-        id: 2,
+        id: uuidv4(),
         name: name.value,
         phone: phone.value,
       },

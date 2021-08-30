@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import ContactTable from "./ContactTable";
 import ContactForm from "./ContactForm";
 import { contactReducer } from "../reducers/contactReducer";
-import { ACTIONS } from "../utils/actions";
 const initialState = {
   contacts: [
     {

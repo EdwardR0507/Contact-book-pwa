@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useReducer } from "react";
 import ContactTable from "./ContactTable";
 import ContactForm from "./ContactForm";
-const Contacts = () => {
-  const contacts = [
+import { contactReducer } from "../reducers/contactReducer";
+import { ACTIONS } from "../utils/actions";
+const initialState = {
+  contacts: [
     {
       id: 1,
       name: "John Doe",
-      phone: "123-456-7890",
+      phone: "123-456-789",
     },
-  ];
+  ],
+};
+const Contacts = () => {
+  const [state, dispatch] = useReducer(contactReducer, initialState);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-evenly">
-      <ContactForm />
-      <ContactTable contacts={contacts} />
+    <div className="w-screen min-h-screen flex flex-col items-center justify-evenly">
+      <ContactForm dispatch={dispatch} />
+      <ContactTable contactList={state} />
     </div>
   );
 };

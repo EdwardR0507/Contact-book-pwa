@@ -1,6 +1,7 @@
 import React from "react";
 
-const TableContacts = ({ contacts }) => {
+const TableContacts = ({ contactList }) => {
+  const { contacts } = contactList;
   return (
     <table className="table-auto w-11/12">
       <thead>
@@ -17,11 +18,19 @@ const TableContacts = ({ contacts }) => {
             <td className="border-2 py-2 px-4 text-center">{contact.id}</td>
             <td className="border-2 py-2 px-4 text-center">{contact.name}</td>
             <td className="border-2 py-2 px-4 text-center">{contact.phone}</td>
-            <td className="border-2 py-2 px-4 text-center">
+            <td className="border-2 py-2 px-4 flex justify-evenly">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center"
                 onClick={() => {
-                  console.log("Delete");
+                  console.log("edit");
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center"
+                onClick={() => {
+                  console.log("delete");
                 }}
               >
                 Delete

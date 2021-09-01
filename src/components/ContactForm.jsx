@@ -1,68 +1,112 @@
 import React from "react";
-import { ACTIONS } from "../utils/actions";
 import useField from "../hooks/useField";
+import { MOODS } from "../utils/moods";
 import { v4 as uuidv4 } from "uuid";
-const ContactForm = ({ dispatch, setOpen }) => {
+const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
   const name = useField("text");
   const phone = useField("text");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({
-      type: ACTIONS.ADD_CONTACT,
-      payload: {
-        id: uuidv4(),
-        name: name.value,
-        phone: phone.value,
-      },
+    handleAdd({
+      id: uuidv4(),
+      name: name.value,
+      phone: phone.value,
     });
     setTimeout(() => {
-      setOpen(false);
+      setIsOpen(false);
+    }, 500);
+  };
+
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+    const dataName = name.value === "" ? data.name : name.value;
+    const dataPhone = phone.value === "" ? data.phone : phone.value;
+    handleEdit({ id: data.id, name: dataName, phone: dataPhone });
+    setTimeout(() => {
+      setIsOpen(false);
     }, 500);
   };
 
   return (
-    <div className="bg-white p-16 rounded shadow-2xl w-11/12 md:w-2/3">
-      <form className="space-y-5" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold">Add Contact</h2>
+    <div className="bg-white p-16 rounded shadow-2xl w-full">
+      <form className="space-y-5">
+        {mood === MOODS.ADD ? (
+          <h2 className="text-2xl font-bold">New Contact</h2>
+        ) : (
+          <h2 className="text-2xl font-bold">Edit Contact</h2>
+        )}
         <div>
           <label name="name" className="block mb-2 font-bold text-gray-700">
             Name:{" "}
           </label>
-          <input
-            {...name}
-            name="name"
-            placeholder="Write a name..."
-            className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
-            autoComplete="off"
-          />
+          {mood === MOODS.ADD ? (
+            <input
+              {...name}
+              name="name"
+              placeholder="Write a name..."
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              autoComplete="off"
+            />
+          ) : (
+            <input
+              defaultValue={data.name}
+              onChange={name.onChange}
+              name="name"
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              autoComplete="off"
+            />
+          )}
         </div>
         <div>
           <label name="number" className="block mb-2 font-bold text-gray-700">
             Phone Number:{" "}
           </label>
-          <input
-            {...phone}
-            name="number"
-            placeholder="Write a phone number..."
-            className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
-            autoComplete="off"
-          />
+          {mood === MOODS.ADD ? (
+            <input
+              {...phone}
+              name="number"
+              placeholder="Write a phone number..."
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              autoComplete="off"
+            />
+          ) : (
+            <input
+              defaultValue={data.phone}
+              onChange={phone.onChange}
+              name="number"
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              autoComplete="off"
+            />
+          )}
         </div>
         <div className="flex justify-evenly">
           <button
             type="button"
-            onClick={() => setOpen(false)}
-            className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className=" block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              setIsOpen(false);
+            }}
           >
             Cancel
           </button>
-          <button
-            type="submit"
-            className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Acept
-          </button>
+          {mood === MOODS.ADD ? (
+            <button
+              type="submit"
+              className="block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleSubmit}
+            >
+              Add
+            </button>
+          ) : (
+            <button
+              type="submit"
+              onClick={handleSubmitEdit}
+              className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Acept
+            </button>
+          )}
         </div>
       </form>
     </div>

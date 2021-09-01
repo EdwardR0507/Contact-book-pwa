@@ -1,15 +1,14 @@
 import React from "react";
-
+import { MOODS } from "../utils/moods";
 const TableContacts = ({
-  contactList,
+  contacts,
   handleDelete,
-
   setIsOpen,
   setData,
+  setMood,
 }) => {
-  const { contacts } = contactList;
   return (
-    <div className="w-full overflow-x-auto flex justify-center my-12">
+    <div className="w-full overflow-x-auto flex justify-center">
       <table className="table-auto">
         <thead>
           <tr>
@@ -46,6 +45,7 @@ const TableContacts = ({
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center mx-4"
                       onClick={() => {
                         setData(contact);
+                        setMood(MOODS.EDIT);
                         setIsOpen(true);
                       }}
                     >

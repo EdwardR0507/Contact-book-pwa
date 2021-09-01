@@ -1,37 +1,38 @@
 import React, { useReducer, useState } from "react";
 import ContactTable from "./ContactTable";
-import ContactForm from "./ContactForm";
 import { contactReducer } from "../reducers/contactReducer";
 import { ACTIONS } from "../utils/actions";
-import ContactEdit from "./ContactEdit";
+import { MOODS } from "../utils/moods";
+import ContactForm from "./ContactForm";
 import ContactModal from "./ContactModal";
-const initialState = {
-  contacts: [
-    {
-      id: 1,
-      name: "John Doe",
-      phone: "123-456-789",
-    },
-  ],
-};
+const initialState = [];
 
 const Contacts = () => {
-  const [state, dispatch] = useReducer(contactReducer, initialState);
-  const [open, setOpen] = useState(false);
+  const [contacts, dispatch] = useReducer(contactReducer, initialState);
+  const [mood, setMood] = useState("");
   const [data, setData] = useState({});
 
   //MODAL
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
-    setOpen(!open);
+    setMood(MOODS.ADD);
+    setIsOpen(!isOpen);
   };
+
+  // Dispatch action to add contact
+  const handleAdd = (newData) => {
+    dispatch({ type: ACTIONS.ADD_CONTACT, payload: newData });
+    setIsOpen(!isOpen);
+  };
+
+  // Dispatch action to delete contact
   const handleDelete = (id) => {
     dispatch({ type: ACTIONS.DELETE_CONTACT, payload: id });
   };
 
+  // Dispatch action to edit contact
   const handleEdit = (contact) => {
-    console.log("contact view", contact);
     dispatch({ type: ACTIONS.EDIT_CONTACT, payload: contact });
   };
   return (
@@ -43,17 +44,19 @@ const Contacts = () => {
       >
         Add Contact
       </button>
-      {open && <ContactForm dispatch={dispatch} setOpen={setOpen} />}
       <ContactTable
-        contactList={state}
+        contacts={contacts}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
         setData={setData}
         setIsOpen={setIsOpen}
+        setMood={setMood}
       />
       <div className="relative z-10">
         <ContactModal open={isOpen} setIsOpen={setIsOpen}>
-          <ContactEdit
+          <ContactForm
+            mood={mood}
+            handleAdd={handleAdd}
             data={data}
             handleEdit={handleEdit}
             setIsOpen={setIsOpen}

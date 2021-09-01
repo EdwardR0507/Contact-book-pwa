@@ -7,6 +7,7 @@ const MODAL_STYLES = {
   transform: "translate(-50%, -50%)",
   backgroundColor: "#FFF",
   zIndex: 1000,
+  width: "80%",
 };
 
 const OVERLAY_STYLES = {
@@ -24,7 +25,12 @@ const ContactModal = ({ open, children }) => {
   return ReactDom.createPortal(
     <>
       <div style={OVERLAY_STYLES} />
-      <div style={MODAL_STYLES}>{children}</div>
+      <div
+        style={MODAL_STYLES}
+        className="rounded p-6 shadow-2xl w-11/12 md:w-2/3"
+      >
+        {children}
+      </div>
     </>,
     document.getElementById("portal")
   );

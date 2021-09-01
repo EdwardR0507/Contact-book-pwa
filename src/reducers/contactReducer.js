@@ -3,23 +3,16 @@ export const contactReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case ACTIONS.ADD_CONTACT:
-      return {
-        ...state,
-        contacts: [...state.contacts, payload],
-      };
+      return [...state, payload];
+
     case ACTIONS.DELETE_CONTACT:
-      return {
-        ...state,
-        contacts: state.contacts.filter((contact) => contact.id !== payload),
-      };
+      return state.filter((contact) => contact.id !== payload);
+
     case ACTIONS.EDIT_CONTACT:
-      return {
-        ...state,
-        contacts: state.contacts.map((contact) => {
-          console.log("contact dispatch", contact);
-          return contact.id === payload.id ? payload : contact;
-        }),
-      };
+      return state.map((contact) => {
+        return contact.id === payload.id ? payload : contact;
+      });
+
     default:
       return state;
   }

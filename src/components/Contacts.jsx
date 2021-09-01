@@ -4,6 +4,7 @@ import ContactForm from "./ContactForm";
 import { contactReducer } from "../reducers/contactReducer";
 import { ACTIONS } from "../utils/actions";
 import ContactEdit from "./ContactEdit";
+import ContactModal from "./ContactModal";
 const initialState = {
   contacts: [
     {
@@ -17,8 +18,10 @@ const initialState = {
 const Contacts = () => {
   const [state, dispatch] = useReducer(contactReducer, initialState);
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [rowId, setRowId] = useState("");
+  const [data, setData] = useState({});
+
+  //MODAL
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -27,28 +30,17 @@ const Contacts = () => {
     dispatch({ type: ACTIONS.DELETE_CONTACT, payload: id });
   };
 
-  const handleClickEdit = () => {
-    setOpenEdit(!openEdit);
-  };
-
   const handleEdit = (contact) => {
     console.log("contact view", contact);
     dispatch({ type: ACTIONS.EDIT_CONTACT, payload: contact });
   };
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-evenly">
-      <button type="button" onClick={handleClickEdit}>
-        Edit Contact
-      </button>
-      {openEdit && (
-        <ContactEdit
-          rowId={rowId}
-          setRowId={setRowId}
-          handleEdit={handleEdit}
-          setOpenEdit={setOpenEdit}
-        />
-      )}
-      <button type="button" onClick={handleClick}>
+      <button
+        type="button"
+        onClick={handleClick}
+        className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
         Add Contact
       </button>
       {open && <ContactForm dispatch={dispatch} setOpen={setOpen} />}
@@ -56,8 +48,18 @@ const Contacts = () => {
         contactList={state}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
-        setRowId={setRowId}
+        setData={setData}
+        setIsOpen={setIsOpen}
       />
+      <div className="relative z-10">
+        <ContactModal open={isOpen} setIsOpen={setIsOpen}>
+          <ContactEdit
+            data={data}
+            handleEdit={handleEdit}
+            setIsOpen={setIsOpen}
+          />
+        </ContactModal>
+      </div>
     </div>
   );
 };

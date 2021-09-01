@@ -6,7 +6,8 @@ const ContactForm = ({ dispatch, setOpen }) => {
   const name = useField("text");
   const phone = useField("text");
 
-  const handleAdd = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch({
       type: ACTIONS.ADD_CONTACT,
       payload: {
@@ -18,10 +19,6 @@ const ContactForm = ({ dispatch, setOpen }) => {
     setTimeout(() => {
       setOpen(false);
     }, 500);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -62,7 +59,6 @@ const ContactForm = ({ dispatch, setOpen }) => {
           </button>
           <button
             type="submit"
-            onClick={handleAdd}
             className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           >
             Acept

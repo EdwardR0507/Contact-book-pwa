@@ -1,9 +1,15 @@
 import React from "react";
 
-const TableContacts = ({ contactList, handleDelete, setRowId }) => {
+const TableContacts = ({
+  contactList,
+  handleDelete,
+
+  setIsOpen,
+  setData,
+}) => {
   const { contacts } = contactList;
   return (
-    <div className="w-full overflow-x-auto flex justify-center my-10">
+    <div className="w-full overflow-x-auto flex justify-center my-12">
       <table className="table-auto">
         <thead>
           <tr>
@@ -38,7 +44,10 @@ const TableContacts = ({ contactList, handleDelete, setRowId }) => {
                     <button
                       type="button"
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center mx-4"
-                      onClick={() => setRowId(contact.id)}
+                      onClick={() => {
+                        setData(contact);
+                        setIsOpen(true);
+                      }}
                     >
                       Edit
                     </button>

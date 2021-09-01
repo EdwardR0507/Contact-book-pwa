@@ -1,22 +1,21 @@
 import React from "react";
 import useField from "../hooks/useField";
-const ContactEdit = ({ rowId, setRowId, handleEdit, setOpenEdit }) => {
-  const name = useField("text");
-  const phone = useField("text");
+const ContactEdit = ({ handleEdit, setIsOpen, data }) => {
+  const name = useField("text", data.name);
+  const phone = useField("text", data.phone);
 
-  const handleAdd = () => {
-    handleEdit({ id: rowId, name: name.value, phone: phone.value });
-    setRowId("");
-    setTimeout(() => {
-      setOpenEdit(false);
-    }, 500);
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const dataName = name.value === "" ? data.name : name.value;
+    const dataPhone = phone.value === "" ? data.phone : phone.value;
+    handleEdit({ id: data.id, name: dataName, phone: dataPhone });
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 500);
   };
 
   return (
-    <div className="bg-white p-16 rounded shadow-2xl w-11/12 md:w-2/3">
+    <div className="bg-white p-16 rounded shadow-2xl w-full">
       <form className="space-y-5" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold">Edit Contact</h2>
         <div>
@@ -24,9 +23,9 @@ const ContactEdit = ({ rowId, setRowId, handleEdit, setOpenEdit }) => {
             Name:{" "}
           </label>
           <input
-            {...name}
+            defaultValue={data.name}
+            onChange={name.onChange}
             name="name"
-            placeholder="Write a name..."
             className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
             autoComplete="off"
           />
@@ -36,9 +35,9 @@ const ContactEdit = ({ rowId, setRowId, handleEdit, setOpenEdit }) => {
             Phone Number:{" "}
           </label>
           <input
-            {...phone}
+            defaultValue={data.phone}
+            onChange={phone.onChange}
             name="number"
-            placeholder="Write a phone number..."
             className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
             autoComplete="off"
           />
@@ -46,13 +45,15 @@ const ContactEdit = ({ rowId, setRowId, handleEdit, setOpenEdit }) => {
         <div className="flex justify-evenly">
           <button
             type="button"
-            className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className=" block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              setIsOpen(false);
+            }}
           >
             Cancel
           </button>
           <button
             type="submit"
-            onClick={handleAdd}
             className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           >
             Acept

@@ -5,6 +5,7 @@ import { ACTIONS } from "../utils/actions";
 import { MOODS } from "../utils/moods";
 import ContactForm from "./ContactForm";
 import ContactModal from "./ContactModal";
+import ContactSearch from "./ContactSearch";
 const initialState = [];
 
 const Contacts = () => {
@@ -37,13 +38,16 @@ const Contacts = () => {
   };
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-evenly">
-      <button
-        type="button"
-        onClick={handleClick}
-        className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Add Contact
-      </button>
+      <div className="flex items-center justify-evenly w-full">
+        <ContactSearch contacts={contacts} setData={setData} />
+        <button
+          type="button"
+          onClick={handleClick}
+          className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
+        >
+          Add Contact
+        </button>
+      </div>
       <ContactTable
         contacts={contacts}
         handleDelete={handleDelete}

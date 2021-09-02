@@ -45,7 +45,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
               {...name}
               name="name"
               placeholder="Write a name..."
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
               autoComplete="off"
             />
           ) : (
@@ -53,7 +53,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
               defaultValue={data.name}
               onChange={name.onChange}
               name="name"
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
               autoComplete="off"
             />
           )}
@@ -67,7 +67,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
               {...phone}
               name="number"
               placeholder="Write a phone number..."
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
               autoComplete="off"
             />
           ) : (
@@ -75,7 +75,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
               defaultValue={data.phone}
               onChange={phone.onChange}
               name="number"
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-blue-700"
+              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
               autoComplete="off"
             />
           )}

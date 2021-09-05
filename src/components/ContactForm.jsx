@@ -8,21 +8,26 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAdd({
-      id: uuidv4(),
-      name: name.value,
-      phone: phone.value,
-    });
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 500);
-  };
+    if (name.value.match(/^([a-zA-Z]+\s*)+$/)) {
+      console.log("name is valid");
+    }
+    if (phone.value.match(/^[0-9]{9}$/)) {
+      console.log("phone is valid");
+    } else {
+      console.log("inputs are invalid");
+    }
 
-  const handleSubmitEdit = (e) => {
-    e.preventDefault();
-    const dataName = name.value === "" ? data.name : name.value;
-    const dataPhone = phone.value === "" ? data.phone : phone.value;
-    handleEdit({ id: data.id, name: dataName, phone: dataPhone });
+    if (mood === MOODS.ADD) {
+      handleAdd({
+        id: uuidv4(),
+        name: name.value,
+        phone: phone.value,
+      });
+    } else {
+      const dataName = name.value === "" ? data.name : name.value;
+      const dataPhone = phone.value === "" ? data.phone : phone.value;
+      handleEdit({ id: data.id, name: dataName, phone: dataPhone });
+    }
     setTimeout(() => {
       setIsOpen(false);
     }, 500);
@@ -30,7 +35,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
 
   return (
     <div className="bg-white p-4 md:p-16 rounded shadow-2xl w-full text-xs md:text-base">
-      <form className="space-y-5">
+      <form className="space-y-5" onSubmit={handleSubmit}>
         {mood === MOODS.ADD ? (
           <h2 className="text-sm md:text-2xl font-bold">New Contact</h2>
         ) : (
@@ -94,14 +99,12 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
             <button
               type="submit"
               className="block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleSubmit}
             >
               Add
             </button>
           ) : (
             <button
               type="submit"
-              onClick={handleSubmitEdit}
               className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             >
               Acept

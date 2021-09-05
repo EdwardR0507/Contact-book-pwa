@@ -8,8 +8,8 @@ const TableContacts = ({
   setMood,
 }) => {
   return (
-    <div className="w-full overflow-x-auto flex justify-center">
-      <table className="table-auto">
+    <div className="w-full h-auto text-xs md:text-base flex justify-center">
+      <table className="table-auto block overflow-x-auto mx-2 md:mx-4">
         <thead>
           <tr>
             <th scope="col" className="border-2 py-2 px-4">
@@ -32,7 +32,9 @@ const TableContacts = ({
               const formatId = contact.id.toString().split("-")[0];
               return (
                 <tr key={contact.id}>
-                  <td className="border-2 py-2 px-4 text-center">{formatId}</td>
+                  <td className="border-2 py-2 px-4 text-center ">
+                    {formatId}
+                  </td>
                   <td className="border-2 py-2 px-4 text-center">
                     {contact.name}
                   </td>
@@ -43,7 +45,7 @@ const TableContacts = ({
                     <div className="flex justify-evenly">
                       <button
                         type="button"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center mx-4"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center mx-1.5 md:mx-4"
                         onClick={() => {
                           setData(contact);
                           setMood(MOODS.EDIT);
@@ -54,7 +56,7 @@ const TableContacts = ({
                       </button>
                       <button
                         type="button"
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center mx-4"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center mx-1.5 md:mx-4"
                         onClick={() => handleDelete(contact.id)}
                       >
                         Delete

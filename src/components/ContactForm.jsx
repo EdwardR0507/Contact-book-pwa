@@ -29,12 +29,12 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
   };
 
   return (
-    <div className="bg-white p-16 rounded shadow-2xl w-full">
+    <div className="bg-white p-4 md:p-16 rounded shadow-2xl w-full text-xs md:text-base">
       <form className="space-y-5">
         {mood === MOODS.ADD ? (
-          <h2 className="text-2xl font-bold">New Contact</h2>
+          <h2 className="text-sm md:text-2xl font-bold">New Contact</h2>
         ) : (
-          <h2 className="text-2xl font-bold">Edit Contact</h2>
+          <h2 className="text-sm md:text-2xl font-bold">Edit Contact</h2>
         )}
         <div>
           <label name="name" className="block mb-2 font-bold text-gray-700">

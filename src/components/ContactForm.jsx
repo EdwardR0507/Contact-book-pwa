@@ -9,7 +9,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
   const phone = useField("text");
 
   const validateSubmit = (nameInput, phoneInput) => {
-    return nameInput.match(/^([a-zA-Z]+\s*)+$/) &&
+    return nameInput.match(/^([a-zA-ZÀ-ÿ]+\s*)+$/) &&
       phoneInput.match(/^[0-9]{9}$/)
       ? true
       : false;
@@ -76,7 +76,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
           )}
           <FormError
             condition={
-              name.value.length > 0 && !name.value.match(/^([a-zA-Z]+\s*)+$/)
+              name.value.length > 0 && !name.value.match(/^([a-zA-ZÀ-ÿ]+\s*)+$/)
             }
             message="Name must contain only letters"
           />

@@ -1,4 +1,4 @@
-import { ACTIONS } from "../utils/actions";
+import { ACTIONS } from "../constants";
 export const contactReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {

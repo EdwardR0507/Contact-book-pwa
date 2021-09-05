@@ -3,3 +3,7 @@ export const ACTIONS = {
   DELETE_CONTACT: "delete_contact",
   EDIT_CONTACT: "edit_contact",
 };
+export const MOODS = {
+  ADD: "add",
+  EDIT: "edit",
+};

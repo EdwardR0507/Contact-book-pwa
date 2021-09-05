@@ -1,5 +1,5 @@
 import React from "react";
-import { MOODS } from "../utils/moods";
+import { MOODS } from "../constants";
 const TableContacts = ({
   contacts,
   handleDelete,

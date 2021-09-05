@@ -1,6 +1,6 @@
 import React from "react";
 import useField from "../hooks/useField";
-import { MOODS } from "../utils/moods";
+import { MOODS } from "../constants";
 import { v4 as uuidv4 } from "uuid";
 const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
   const name = useField("text");

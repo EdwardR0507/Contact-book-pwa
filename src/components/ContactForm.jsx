@@ -2,35 +2,41 @@ import React from "react";
 import useField from "../hooks/useField";
 import { MOODS } from "../constants";
 import { v4 as uuidv4 } from "uuid";
+import FormError from "./FormError";
+
 const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
   const name = useField("text");
   const phone = useField("text");
 
+  const validateSubmit = (nameInput, phoneInput) => {
+    return nameInput.match(/^([a-zA-Z]+\s*)+$/) &&
+      phoneInput.match(/^[0-9]{9}$/)
+      ? true
+      : false;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.value.match(/^([a-zA-Z]+\s*)+$/)) {
-      console.log("name is valid");
-    }
-    if (phone.value.match(/^[0-9]{9}$/)) {
-      console.log("phone is valid");
-    } else {
-      console.log("inputs are invalid");
-    }
-
     if (mood === MOODS.ADD) {
-      handleAdd({
-        id: uuidv4(),
-        name: name.value,
-        phone: phone.value,
-      });
+      if (validateSubmit(name.value, phone.value)) {
+        handleAdd({
+          id: uuidv4(),
+          name: name.value,
+          phone: phone.value,
+        });
+      }
     } else {
       const dataName = name.value === "" ? data.name : name.value;
       const dataPhone = phone.value === "" ? data.phone : phone.value;
-      handleEdit({ id: data.id, name: dataName, phone: dataPhone });
+      if (validateSubmit(dataName, dataPhone)) {
+        handleEdit({
+          id: data.id,
+          name: dataName,
+          phone: dataPhone,
+        });
+        setIsOpen(false);
+      }
     }
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 500);
   };
 
   return (
@@ -46,13 +52,19 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
             Name:{" "}
           </label>
           {mood === MOODS.ADD ? (
-            <input
-              {...name}
-              name="name"
-              placeholder="Write a name..."
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-              autoComplete="off"
-            />
+            <>
+              <input
+                {...name}
+                name="name"
+                placeholder="Write a name..."
+                className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
+                autoComplete="off"
+              />
+              <FormError
+                condition={name.value.length === 0}
+                message="Complete the name"
+              />
+            </>
           ) : (
             <input
               defaultValue={data.name}
@@ -62,28 +74,52 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
               autoComplete="off"
             />
           )}
+          <FormError
+            condition={
+              name.value.length > 0 && !name.value.match(/^([a-zA-Z]+\s*)+$/)
+            }
+            message="Name must contain only letters"
+          />
         </div>
         <div>
           <label name="number" className="block mb-2 font-bold text-gray-700">
             Phone Number:{" "}
           </label>
           {mood === MOODS.ADD ? (
-            <input
-              {...phone}
-              name="number"
-              placeholder="Write a phone number..."
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-              autoComplete="off"
-            />
+            <>
+              <input
+                {...phone}
+                name="number"
+                placeholder="Write a phone number..."
+                className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
+                autoComplete="off"
+              />
+              <FormError
+                condition={phone.value.length === 0}
+                message="Complete the phone number"
+              />
+            </>
           ) : (
-            <input
-              defaultValue={data.phone}
-              onChange={phone.onChange}
-              name="number"
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-              autoComplete="off"
-            />
+            <>
+              <input
+                defaultValue={data.phone}
+                onChange={phone.onChange}
+                name="number"
+                className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
+                autoComplete="off"
+              />
+              <FormError
+                condition={!data.phone && phone.value.length === 0}
+                message="Complete the phone number"
+              />
+            </>
           )}
+          <FormError
+            condition={
+              phone.value.length > 0 && !phone.value.match(/^[0-9]{9}$/)
+            }
+            message="Phone number must contain only numbers and 9 digits"
+          />
         </div>
         <div className="flex justify-evenly">
           <button
@@ -95,21 +131,12 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
           >
             Cancel
           </button>
-          {mood === MOODS.ADD ? (
-            <button
-              type="submit"
-              className="block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Add
-            </button>
-          ) : (
-            <button
-              type="submit"
-              className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Acept
-            </button>
-          )}
+          <button
+            type="submit"
+            className=" block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Acept
+          </button>
         </div>
       </form>
     </div>

@@ -24,6 +24,7 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
           name: name.value,
           phone: phone.value,
         });
+        setIsOpen(false);
       }
     } else {
       const dataName = name.value === "" ? data.name : name.value;

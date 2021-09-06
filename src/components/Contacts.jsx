@@ -53,7 +53,6 @@ const Contacts = () => {
   // Dispatch action to add contact
   const handleAdd = (newData) => {
     dispatch({ type: ACTIONS.ADD_CONTACT, payload: newData });
-    setIsOpen(!isOpen);
   };
 
   // Dispatch action to delete contact

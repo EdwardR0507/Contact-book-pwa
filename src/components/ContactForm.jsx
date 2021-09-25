@@ -5,38 +5,34 @@ import { v4 as uuidv4 } from "uuid";
 import FormError from "./FormError";
 
 const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
-  const name = useField("text");
-  const phone = useField("text");
+  const initialStateName = mood === MOODS.ADD ? "" : data.name;
+  const initialStatePhone = mood === MOODS.ADD ? "" : data.phone;
 
-  const validateSubmit = (nameInput, phoneInput) => {
-    return nameInput.match(/^([a-zA-ZÀ-ÿ]+\s*)+$/) &&
-      phoneInput.match(/^[0-9]{9}$/)
-      ? true
-      : false;
+  const name = useField({ type: "text", initialState: initialStateName });
+  const phone = useField({ type: "text", initialState: initialStatePhone });
+
+  const validateInputs = (nameInput, phoneInput) => {
+    return (
+      (nameInput.match(/^([a-zA-ZÀ-ÿ]+\s*)+$/) &&
+        phoneInput.match(/^[0-9]{9}$/)) !== null
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (mood === MOODS.ADD) {
-      if (validateSubmit(name.value, phone.value)) {
-        handleAdd({
-          id: uuidv4(),
-          name: name.value,
-          phone: phone.value,
-        });
-        setIsOpen(false);
-      }
-    } else {
-      const dataName = name.value === "" ? data.name : name.value;
-      const dataPhone = phone.value === "" ? data.phone : phone.value;
-      if (validateSubmit(dataName, dataPhone)) {
-        handleEdit({
-          id: data.id,
-          name: dataName,
-          phone: dataPhone,
-        });
-        setIsOpen(false);
-      }
+    if (validateInputs(name.value, phone.value)) {
+      mood === MOODS.ADD
+        ? handleAdd({
+            id: uuidv4(),
+            name: name.value,
+            phone: phone.value,
+          })
+        : handleEdit({
+            id: data.id,
+            name: name.value,
+            phone: phone.value,
+          });
+      setIsOpen(false);
     }
   };
 
@@ -48,80 +44,38 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
         ) : (
           <h2 className="text-sm md:text-2xl font-bold">Edit Contact</h2>
         )}
-        <div>
-          <label name="name" className="block mb-2 font-bold text-gray-700">
-            Name:{" "}
-          </label>
-          {mood === MOODS.ADD ? (
-            <>
-              <input
-                {...name}
-                name="name"
-                placeholder="Write a name..."
-                className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-                autoComplete="off"
-              />
-              <FormError
-                condition={name.value.length === 0}
-                message="Complete the name"
-              />
-            </>
-          ) : (
-            <input
-              defaultValue={data.name}
-              onChange={name.onChange}
-              name="name"
-              className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-              autoComplete="off"
-            />
-          )}
-          <FormError
-            condition={
-              name.value.length > 0 && !name.value.match(/^([a-zA-ZÀ-ÿ]+\s*)+$/)
-            }
-            message="Name must contain only letters"
-          />
-        </div>
-        <div>
-          <label name="number" className="block mb-2 font-bold text-gray-700">
-            Phone Number:{" "}
-          </label>
-          {mood === MOODS.ADD ? (
-            <>
-              <input
-                {...phone}
-                name="number"
-                placeholder="Write a phone number..."
-                className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-                autoComplete="off"
-              />
-              <FormError
-                condition={phone.value.length === 0}
-                message="Complete the phone number"
-              />
-            </>
-          ) : (
-            <>
-              <input
-                defaultValue={data.phone}
-                onChange={phone.onChange}
-                name="number"
-                className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
-                autoComplete="off"
-              />
-              <FormError
-                condition={!data.phone && phone.value.length === 0}
-                message="Complete the phone number"
-              />
-            </>
-          )}
-          <FormError
-            condition={
-              phone.value.length > 0 && !phone.value.match(/^[0-9]{9}$/)
-            }
-            message="Phone number must contain only numbers and 9 digits"
-          />
-        </div>
+        <input
+          {...name}
+          name="name"
+          placeholder="Write a name..."
+          className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
+          autoComplete="off"
+        />
+        <FormError
+          condition={name.value.length === 0}
+          message="Complete the name"
+        />
+        <FormError
+          condition={
+            name.value.length > 0 && !name.value.match(/^([a-zA-ZÀ-ÿ]+\s*)+$/)
+          }
+          message="Name must contain only letters"
+        />
+        <input
+          {...phone}
+          name="number"
+          placeholder="Write a phone number..."
+          className="form-control w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-indigo-500"
+          autoComplete="off"
+        />
+        <FormError
+          condition={phone.value.length === 0}
+          message="Complete the phone number"
+        />
+        <FormError
+          condition={phone.value.length > 0 && !phone.value.match(/^[0-9]{9}$/)}
+          message="Phone number must contain only numbers and 9 digits"
+        />
         <div className="flex justify-evenly">
           <button
             type="button"
@@ -143,5 +97,4 @@ const ContactForm = ({ handleEdit, setIsOpen, data, mood, handleAdd }) => {
     </div>
   );
 };
-
 export default ContactForm;

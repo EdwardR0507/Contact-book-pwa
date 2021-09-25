@@ -80,7 +80,6 @@ const Contacts = () => {
       <ContactTable
         contacts={filteredContacts}
         handleDelete={handleDelete}
-        handleEdit={handleEdit}
         setData={setData}
         setIsOpen={setIsOpen}
         setMood={setMood}

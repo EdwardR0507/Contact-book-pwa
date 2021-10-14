@@ -1,34 +1,13 @@
 import React from "react";
 import ReactDom from "react-dom";
-const MODAL_STYLES = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "#FFF",
-  zIndex: 1000,
-  width: "80%",
-};
 
-const OVERLAY_STYLES = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0, 0, 0, .7)",
-  zIndex: 1000,
-};
 const ContactModal = ({ open, children }) => {
   if (!open) return null;
 
   return ReactDom.createPortal(
     <>
-      <div style={OVERLAY_STYLES} />
-      <div
-        style={MODAL_STYLES}
-        className="rounded p-6 shadow-2xl w-11/12 md:w-2/3"
-      >
+      <div className="fixed rounded inset-0 bg-black opacity-70 z-50" />
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded p-6 shadow-2xl w-11/12 md:w-2/3 z-50">
         {children}
       </div>
     </>,
